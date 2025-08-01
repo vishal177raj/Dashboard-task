@@ -1,10 +1,14 @@
+
 # 🔐 KYC Identity Verification Form UI
 
 This is a fully responsive **KYC (Know Your Customer) Identity Verification form UI**, developed using **HTML**, **CSS**, and **Bootstrap 5**, based on a professional Figma design. The project focuses on pixel-perfect design implementation, suitable for front-end internships, portfolio showcases, or real-world onboarding systems.
 
 ## 📸 Preview
 
-> _Add deployed link or screenshot here if available._
+<img width="1100" height="711" alt="Screenshot 2025-08-01 125513" src="https://github.com/user-attachments/assets/39a2e2a9-685a-4ab4-9eb0-9796a4d2f44d" />
+<img width="831" height="549" alt="Screenshot 2025-08-01 122750" src="https://github.com/user-attachments/assets/392d7bd0-bdef-4a70-9432-86bb7c4c691f" />
+<img width="1096" height="708" alt="Screenshot 2025-08-01 115143" src="https://github.com/user-attachments/assets/873eb851-c94c-4ac9-90cc-d84c100c247a" />
+<img width="1099" height="752" alt="Screenshot 2025-08-01 111152" src="https://github.com/user-attachments/assets/596cb2db-0927-43c1-b6a8-09c9a609b3b2" />
 
 ## ✨ Features
 

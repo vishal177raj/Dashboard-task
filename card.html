@@ -612,28 +612,64 @@
             </div>
 
             <div class="card-details-panel">
-                <div class="virtual-card">
-                    <h6>VIRTUAL</h6>
-                    <h5>PLATINUM</h5>
-                    <p class="card-number">7413 **** **** 2367</p>
-                    <div class="d-flex flex-wrap gap-2">
-                       
-                        <button class="btn btn-sm">Reveal</button>
-                    </div>
-                </div>
-                <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-sm">Close</button>
-                        <button class="btn btn-sm">Top up</button>
-                        <button class="btn btn-sm">Set Pin</button>
-                        
-                    </div>
+                <div class="virtual-card" style="position: relative;">
+    <p style="position: absolute; top: 5px; right: 10px; margin: 2px; font-weight: bold;">Main</p>
+    <h6>VIRTUAL</h6>
+    <h5>PLATINUM</h5>
+    <div class="d-flex flex-wrap gap-2" style="justify-content: flex-end;">
+        <button class="btn btn-sm">Reveal</button>
+    </div>
+    <p class="card-number">7413 **** **** 2367</p>
+</div>
 
-                <div class="account-status">
-                    <h6 class="mb-2">Account</h6>
-                    <p class="mb-3">XYZ Name</p>
-                    <h6 class="mb-2">Status</h6>
-                    <p><span class="badge bg-success">Active</span></p>
-                </div>
+
+<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    <div class="d-flex flex-wrap" style="gap: 20px;">
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Close</span>
+        </button>
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Top up</span>
+        </button>
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Set Pin</span>
+        </button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="account-status d-flex justify-content-evenly align-items-center" style="margin: 15px 0; border-radius: 8px;background-color: #f3f3f3; padding: 10px;">
+    <div style="margin-right: 60px;">
+        <h6 class="mb-1">Account</h6>
+        <p class="mb-0">XYZ Name</p>
+    </div>
+    <div>
+        <h6 class="mb-1">Status</h6>
+        <p class="mb-0">
+            <span style="display: inline-block; width: 8px; height: 8px; background-color: #90EE90; border-radius: 50%; margin-right: 3px; vertical-align: middle;"></span>
+            Active
+        </p>
+    </div>
+</div>
+
+
+
+
 
                 <div class="recent-transactions">
                     <h6 class="mb-3">Recent Transactions</h6>

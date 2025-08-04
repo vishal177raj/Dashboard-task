@@ -510,71 +510,65 @@ body {
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 991.98px) {
-    .sidebar {
-        transform: translateX(-100%);
-    }
+  .sidebar {
+    transform: translateX(-100%);
+  }
 
-    #sidebar-toggle:checked~.sidebar {
-        transform: translateX(0);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    }
+  #sidebar-toggle:checked ~ .sidebar {
+    transform: translateX(0);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
 
-    .main-content {
-        margin-left: 0;
-    }
+  .main-content {
+    margin-left: 0;
+  }
 
-    .menu-toggle {
-        display: block;
-    }
+  .menu-toggle {
+    display: block;
+  }
 
-    .top-bar {
-        flex-wrap: nowrap;
-        gap: 10px;
-    }
+  .top-bar {
+    flex-wrap: wrap; /* allow title to wrap instead of hiding */
+    gap: 10px;
+  }
 
-    .top-bar h2 {
-        display: none;
-        /* Hide title next to hamburger for more space */
-    }
+  .top-bar h2 {
+    display: block; /* ensure title remains visible */
+  }
 
-    .card-details-panel {
-        display: none;
-    }
+  .card-details-panel {
+    display: block; /* previously hidden — now visible */
+    margin-top: 1rem;
+  }
 
-    .cards-list-section {
-        padding-right: 0;
-    }
+  .cards-list-section {
+    padding-right: 0;
+  }
 }
 
 @media (max-width: 768px) {
-    .card-table th:nth-child(4),
-    .card-table td:nth-child(4),
-    /* Account */
-    .card-table th:nth-child(6),
-    .card-table td:nth-child(6)
-
-    /* Amount */
-        {
-        display: none;
-    }
+  /* Removed display: none from table columns */
+  .card-table th:nth-child(4),
+  .card-table td:nth-child(4),
+  .card-table th:nth-child(6),
+  .card-table td:nth-child(6) {
+    display: table-cell;
+  }
 }
 
 @media (max-width: 576px) {
-    .card-table th:nth-child(3),
-    .card-table td:nth-child(3)
+  .card-table th:nth-child(3),
+  .card-table td:nth-child(3) {
+    display: table-cell;
+  }
 
-    /* Number */
-        {
-        display: none;
-    }
+  .card-row {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .card-row {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card-virtual {
-        width: 100%;
-        max-width: 300px;
-    }
+  .card-virtual {
+    width: 100%;
+    max-width: 300px;
+  }
 }

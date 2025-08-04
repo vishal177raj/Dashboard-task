@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --sidebar-width: 220px;
+            --main-bg: #f8f9fa;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --light-text: #6c757d;
+            --border-color: #e0e0e0;
+            --active-link-bg: #f0f0f0;
+            --active-link-color: #000;
+            --platinum-card-bg: #e5ff00;
+            --dark-text: #000;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: var(--light-text);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--active-link-bg);
+            color: var(--text-color);
+        }
+
+        .sidebar .nav-link.active {
+            background-color: var(--active-link-bg);
+            color: var(--active-link-color);
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            display: flex;
+        }
+
+        .cards-list-section {
+            flex-grow: 1;
+            padding-right: 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-bar h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .search-bar .form-control {
+            border-radius: 20px;
+            padding: 8px 15px;
+            background-color: #f0f2f5;
+            border: 1px solid var(--border-color);
+            width: 250px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-icons .btn {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-text);
+            background-color: transparent;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .header-icons .btn.account {
+            border-radius: 20px;
+            width: auto;
+            padding: 0 15px;
+        }
+
+        .cards-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cards-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cards-actions button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cards-actions button.active {
+            background-color: var(--active-link-bg);
+        }
+
+        .card-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .card-table th, .card-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .card-table th {
+            font-weight: 500;
+            color: var(--light-text);
+        }
+
+        .card-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .card-table td .badge {
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-closed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .load-more {
+            text-align: center;
+        }
+
+        .load-more button {
+            background-color: transparent;
+            color: var(--light-text);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* Corrected Styles for the right-side panel */
+        .card-details-panel {
+            width: 300px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .virtual-card {
+            background-color: var(--platinum-card-bg);
+            color: var(--dark-text);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .virtual-card h6 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .virtual-card h5 {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .virtual-card .card-number {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .virtual-card .btn-sm {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: var(--dark-text);
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .account-status {
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .account-status h6, .recent-transactions h6 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .account-status p {
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .recent-transactions h6 {
+            margin-bottom: 1rem;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .transaction-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .transaction-icon i {
+            font-size: 0.7rem;
+        }
+
+        .transaction-details p {
+            margin: 0;
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .transaction-amount {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+            border-radius: 0.25rem;
+        }
+
+        .bg-success {
+            background-color: #28a745 !important;
+            color: #fff !important;
+        }
+
+        .text-success {
+            color: #28a745 !important;
+        }
+
+        .text-danger {
+            color: #dc3545 !important;
+        }
+
+        .view-all {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .view-all a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .card-details-panel {
+                width: 250px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+                margin-left: 0;
+                padding: 15px;
+            }
+            .sidebar {
+                position: static;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 15px;
+                padding: 10px;
+                overflow-x: auto;
+                height: auto;
+                display: flex;
+                align-items: center;
+                white-space: nowrap;
+                justify-content: space-between;
+            }
+            .sidebar .nav {
+                flex-direction: row;
+                flex-grow: 1;
+                justify-content: space-around;
+            }
+            .sidebar .nav-link {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 12px;
+                margin-right: 0;
+            }
+            .sidebar .nav-link span {
+                display: block;
+                font-size: 0.7rem;
+                margin-top: 5px;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+            .cards-list-section {
+                padding-right: 0;
+            }
+            .card-details-panel {
+                width: 100%;
+                position: static;
+                margin-top: 20px;
+                margin-left: 0;
+            }
+            .card-table {
+                width: 100%;
+            }
+            .card-table th, .card-table td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .top-bar h2 {
+                flex-grow: 0;
+            }
+            .search-bar {
+                width: 100%;
+                order: 2;
+            }
+            .header-icons {
+                order: 1;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .cards-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .cards-actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            .cards-actions button {
+                flex: 1;
+                margin: 0;
+                min-width: 100px;
+                text-align: center;
+            }
+            .card-table th:nth-child(4), .card-table td:nth-child(4), /* Account */
+            .card-table th:nth-child(6), .card-table td:nth-child(6) /* Amount */ {
+                display: none;
+            }
+            .card-table th, .card-table td {
+                padding: 8px 6px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-table th:nth-child(3), .card-table td:nth-child(3) /* Number */ {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <div class="logo d-none d-lg-block">LOGO</div>
+           <ul class="nav flex-column d-lg-block">
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center gap-2" href="#">
+      <i class="fa-solid fa-house"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active d-flex align-items-center gap-2" href="#">
+      <i class="fa-regular fa-credit-card"></i>
+      <span>Cards</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center gap-2" href="#">
+      <i class="fa-solid fa-wallet"></i>
+      <span>Accounts</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center gap-2" href="#">
+      <i class="fa-solid fa-arrow-right-arrow-left"></i>
+      <span>Transactions</span>
+    </a>
+  </li>
+</ul>
+
+        </div>
+
+        <div class="main-content">
+            <div class="cards-list-section">
+                <div class="top-bar">
+                    <h2>Cards</h2>
+                    <div class="search-bar">
+                        <input type="text" class="form-control" placeholder="Enter card name or number">
+                    </div>
+                    <div class="header-icons">
+                        <button class="btn"><i class="fa-solid fa-phone-alt"></i></button>
+                        <button class="btn"><i class="fa-regular fa-envelope"></i></button>
+                        <button class="btn">EH</button>
+                        <button class="btn account">Account</button>
+                    </div>
+                </div>
+
+                <div class="cards-header">
+                    <h3>Your cards</h3>
+                    <div class="cards-actions">
+                        <button class="active">Orders</button>
+                        <button>Create a card</button>
+                        <button><i class="fa-solid fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="card-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Number</th>
+                                <th>Account</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Non-reloadable</td>
+                                <td>**** 7413</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Physical</td>
+                                <td>**** 7413</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Non-reloadable</td>
+                                <td>**** 7413</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-closed">Closed</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Physical</td>
+                                <td>**** 1123</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Non-reloadable</td>
+                                <td>**** 2783</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Reloadable</td>
+                                <td>**** 1155</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-closed">Closed</span></td>
+                                <td>$0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Reloadable</td>
+                                <td>**** 2296</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                            <tr>
+                                <td>Primary</td>
+                                <td>Non-reloadable</td>
+                                <td>**** 9909</td>
+                                <td>Connect4Dig</td>
+                                <td><span class="badge status-active">Active</span></td>
+                                <td>$1,499.20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="load-more">
+                    <button>Load more</button>
+                </div>
+            </div>
+
+            <div class="card-details-panel">
+                <div class="virtual-card" style="position: relative;">
+    <p style="position: absolute; top: 5px; right: 10px; margin: 2px; font-weight: bold;">Main</p>
+    <h6>VIRTUAL</h6>
+    <h5>PLATINUM</h5>
+    <div class="d-flex flex-wrap gap-2" style="justify-content: flex-end;">
+        <button class="btn btn-sm">Reveal</button>
+    </div>
+    <p class="card-number">7413 **** **** 2367</p>
+</div>
+
+
+<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    <div class="d-flex flex-wrap" style="gap: 20px;">
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Close</span>
+        </button>
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Top up</span>
+        </button>
+        <button class="btn btn-sm" style="display: flex; flex-direction: column; align-items: center; font-weight: bold; color: #555;">
+            <span style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 50%; background-color: #f0f0f0; margin-bottom: 5px;">
+                <i class="fa-regular fa-moon"></i>
+            </span>
+            <span>Set Pin</span>
+        </button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="account-status d-flex justify-content-evenly align-items-center" style="margin: 15px 0; border-radius: 8px;background-color: #f3f3f3; padding: 10px;">
+    <div style="margin-right: 60px;">
+        <h6 class="mb-1">Account</h6>
+        <p class="mb-0">XYZ Name</p>
+    </div>
+    <div>
+        <h6 class="mb-1">Status</h6>
+        <p class="mb-0">
+            <span style="display: inline-block; width: 8px; height: 8px; background-color: #90EE90; border-radius: 50%; margin-right: 3px; vertical-align: middle;"></span>
+            Active
+        </p>
+    </div>
+</div>
+
+
+
+
+
+                <div class="recent-transactions">
+                    <h6 class="mb-3">Recent Transactions</h6>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon"><i class="fa-solid fa-arrow-up text-success"></i></div>
+                            <div class="transaction-details">
+                                <p class="mb-0">Xero</p>
+                                <p class="text-muted small mb-0">Today, 08:00 AM</p>
+                            </div>
+                        </div>
+                        <div class="transaction-amount text-success">+$145</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon"><i class="fa-solid fa-arrow-down text-danger"></i></div>
+                            <div class="transaction-details">
+                                <p class="mb-0">Dunkin Donuts</p>
+                                <p class="text-muted small mb-0">Yesterday, 05:30 PM</p>
+                            </div>
+                        </div>
+                        <div class="transaction-amount text-danger">-$2.75</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon"><i class="fa-solid fa-arrow-up text-success"></i></div>
+                            <div class="transaction-details">
+                                <p class="mb-0">Xero</p>
+                                <p class="text-muted small mb-0">July 15, 2023, 09:00 AM</p>
+                            </div>
+                        </div>
+                        <div class="transaction-amount text-success">+$145</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon"><i class="fa-solid fa-arrow-up text-success"></i></div>
+                            <div class="transaction-details">
+                                <p class="mb-0">Xero</p>
+                                <p class="text-muted small mb-0">July 14, 2023, 07:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="transaction-amount text-success">+$145</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon"><i class="fa-solid fa-arrow-up text-success"></i></div>
+                            <div class="transaction-details">
+                                <p class="mb-0">Xero</p>
+                                <p class="text-muted small mb-0">July 13, 2023, 11:00 AM</p>
+                            </div>
+                        </div>
+                        <div class="transaction-amount text-success">+$145</div>
+                    </div>
+                    <div class="view-all mt-3">
+                        <a href="#" class="text-muted small">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
